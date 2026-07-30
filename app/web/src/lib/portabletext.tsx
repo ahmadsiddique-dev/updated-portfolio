@@ -99,14 +99,20 @@ export const portableTextComponents: PortableTextComponents = {
   },
 
   types: {
-  image: ({ value }) => (
-    <Image
-      src={urlFor(value).url()}
-      alt={value.alt ?? ""}
-      width={900}
-      height={500}
-      className="my-8 rounded-lg border border-zinc-800"
-    />
-  ),
-},
+    image: ({ value }) => {
+      if (!value?.asset?._ref) {
+        return null;
+      }
+      return (
+        <Image
+          src={urlFor(value).width(900).fit("max").auto("format").url()}
+          alt={value.alt ?? ""}
+          width={900}
+          height={500}
+          unoptimized
+          className="my-8 rounded-lg border border-zinc-800"
+        />
+      );
+    },
+  },
 };
