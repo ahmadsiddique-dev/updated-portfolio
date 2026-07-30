@@ -9,6 +9,7 @@ type Props = {
     slug: string
   }
 }
+
 const page = async ({ params }: Props) => {
   const { slug } = await params;
   if (!slug) {

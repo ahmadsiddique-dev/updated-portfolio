@@ -1,6 +1,7 @@
 import BlogNav from '@/components/elements/BlogNav'
 import BlogFooter from '@/components/elements/BlogFooter'
 import React from 'react'
+import {} from 'next'
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
