@@ -22,4 +22,26 @@ export const getBlogQuery = defineQuery(`
   detail,
   createdAt,
  }
-  `);
+`);
+
+export const getProjectsQuery = defineQuery(`
+  *[_type == 'project' && show == true] {
+  _id,
+  createdAt,
+  description,
+  "slug": slug.current,
+  title
+}
+`)
+
+export const getProjectQuery = defineQuery(`
+  *[_type == 'project' && show == true && slug.current == $slug] {
+  _id,
+  createdAt,
+  description,
+  "image": image.asset->url,
+  "slug": slug.current,
+  title,
+  detail
+}
+`)
