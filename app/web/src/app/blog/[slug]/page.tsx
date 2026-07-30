@@ -1,6 +1,8 @@
 import React from 'react'
 import { getBlog } from './_lib/get-blog'
 import { PortableText } from '@portabletext/react'
+import Image from 'next/image';
+import { portableTextComponents } from '@/lib/portabletext';
 
 type Props = {
   params: {
@@ -17,7 +19,13 @@ const page = async ({ params }: Props) => {
   const blog = await getBlog(slug);
   return (
     <div>
-      <PortableText value={blog[0].detail} />
+      <h1>{blog[0].title}</h1>
+      <p>{blog[0].description}</p>
+      <Image src={blog[0].image || ""} alt="not to show" height={400} width={400}/> { /* TODO: put here some temp img*/}
+      <PortableText 
+      value={blog[0].detail}
+      components={portableTextComponents}
+       />
     </div>
   )
 }
