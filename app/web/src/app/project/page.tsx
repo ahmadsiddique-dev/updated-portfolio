@@ -24,7 +24,7 @@ export default async function ProjectsPage() {
   return (
     <main id="main-content">
       <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col justify-start md:border-x">
-        <div className=" px-5 pt-10">
+        <div className=" px-5 pt-7">
           <Link
             href="/"
             className="text-muted-foreground hover:text-foreground duration-200 flex items-center gap-1.5 w-fit"
@@ -33,7 +33,7 @@ export default async function ProjectsPage() {
             <span>Go Home</span>
           </Link>
         </div>
-        <div className="px-4 py-8 md:py-12">
+        <div className="px-4 py-6 md:py-7">
           <h1 className="font-semibold text-2xl tracking-wide md:text-4xl">
             Projects
           </h1>

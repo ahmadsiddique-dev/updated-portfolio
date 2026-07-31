@@ -9,8 +9,6 @@ const MainHomePage = () => {
       <main id="main-content" className="max-w-2xl px-5 sm:px-12 md:px-2 mx-auto">
         <Bio />
         <HeatMap />
-        {/* <Project /> */}
-        
       </main>
     </>
   );
