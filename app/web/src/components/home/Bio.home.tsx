@@ -1,4 +1,4 @@
-import InforViewer from "@/helper/InforViewer";
+import InforViewer from "@/lib/InforViewer";
 import Image from "next/image";
 import Link from "next/link";
 

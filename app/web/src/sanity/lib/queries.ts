@@ -45,3 +45,10 @@ export const getProjectQuery = defineQuery(`
   detail
 }
 `)
+
+export const getSkillsQuery = defineQuery(`
+  *[_type == "skill" && tag == $tag] {
+  name,
+  "image": image.asset->url
+}
+`)

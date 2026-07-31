@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FullWidthDivider } from "@/components/full-width-divider";
 import { getProjects } from './_lib/get-projects'
-import { formatDate } from "../blog/_lib/time-formater";
+import { formatDate } from "../../lib/time-formater";
 
 export const metadata: Metadata = {
   title: "Projects",

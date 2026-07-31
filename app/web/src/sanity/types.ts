@@ -22,6 +22,39 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
+export type Skill = {
+  _id: string;
+  _type: "skill";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  tag?: "frontend" | "backend" | "database" | "devops" | "other";
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
 export type Project = {
   _id: string;
   _type: "project";
@@ -70,22 +103,6 @@ export type Project = {
       }
   >;
   show?: boolean;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
 };
 
 export type Slug = {
@@ -244,9 +261,10 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes =
   | SanityImageAssetReference
-  | Project
+  | Skill
   | SanityImageCrop
   | SanityImageHotspot
+  | Project
   | Slug
   | Blog
   | SanityImagePaletteSwatch
@@ -406,6 +424,14 @@ export type GetProjectQueryResult = Array<{
   > | null;
 }>;
 
+// Source: ../web/src/sanity/lib/queries.ts
+// Variable: getSkillsQuery
+// Query: *[_type == 'skill' && tag == $tag] {  name,  "image": image.asset->url}
+export type GetSkillsQueryResult = Array<{
+  name: string | null;
+  image: string | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -414,5 +440,6 @@ declare module "@sanity/client" {
     '\n  *[show == true && slug.current == $slug]{\n  _id,\n  title,\n  "image": image.asset->url,\n  time,\n  description,\n  detail,\n  createdAt,\n }\n': GetBlogQueryResult;
     "\n  *[_type == 'project' && show == true] {\n  _id,\n  createdAt,\n  description,\n  \"slug\": slug.current,\n  title\n}\n": GetProjectsQueryResult;
     '\n  *[_type == \'project\' && show == true && slug.current == $slug] {\n  _id,\n  createdAt,\n  description,\n  "image": image.asset->url,\n  "slug": slug.current,\n  title,\n  detail\n}\n': GetProjectQueryResult;
+    "\n  *[_type == 'skill' && tag == $tag] {\n  name,\n  \"image\": image.asset->url\n}\n": GetSkillsQueryResult;
   }
 }

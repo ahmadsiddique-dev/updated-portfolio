@@ -1,3 +1,5 @@
+
+// No SEO yet and Meta tags are remaining
 export default function ProjectLayout({
   children,
 }: Readonly<{

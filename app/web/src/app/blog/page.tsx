@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import { getBlogs } from "./_lib/get-blogs";
-import { formatDate } from "./_lib/time-formater";
+import { formatDate } from "../../lib/time-formater";
 
 export const metadata: Metadata = {
   title: "My Blogs | Ahmad Siddique",
