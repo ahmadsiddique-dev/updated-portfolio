@@ -34,7 +34,7 @@ export default async function ProjectsPage() {
           </Link>
         </div>
         <div className="px-4 py-6 md:py-7">
-          <h1 className="font-semibold text-2xl tracking-wide md:text-4xl">
+          <h1 className="font-bold text-xl tracking-tight md:text-3xl">
             Projects
           </h1>
         </div>
@@ -77,11 +77,11 @@ function BlogCard({
       {...props}
     >
       <div className="relative flex items-end justify-center gap-2">
-        <h2 className="whitespace-nowrap font-medium text-foreground text-lg md:text-xl">
+        <h2 className="whitespace-nowrap font-medium text-foreground text-md md:text-lg">
           {title}
         </h2>
         <span className="mb-1.5 w-full border-b-2 border-dashed" />
-        <span className="whitespace-nowrap font-mono text-muted-foreground text-xs uppercase group-hover:text-foreground md:text-sm">
+        <span className="whitespace-nowrap font-mono text-[12px] text-muted-foreground uppercase group-hover:text-foreground">
           {createdAt && formatDate(createdAt)}
         </span>
       </div>

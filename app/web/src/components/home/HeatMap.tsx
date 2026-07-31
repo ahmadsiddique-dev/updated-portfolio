@@ -4,7 +4,7 @@ const HeatMap = () => {
     return (
         <div>
             <h2 className="text-3xl font-semibold mb-2">Hackatime Activity</h2>
-            <p className="text-sm text-muted-foreground">Stats of Year 2026</p>
+            <p className="text-sm text-muted-foreground">Realtime stats of Year 2026</p>
             <div className="mt-7">
                 <img src="https://github-readme-stats.hackclub.dev/api/wakatime?username=22817&api_domain=hackatime.hackclub.com&theme=nightowl&custom_title=Hackatime+Stats&layout=compact&cache_seconds=0&langs_count=8" alt="lang badge" />
             </div>
