@@ -1,13 +1,13 @@
-import ProjFooter from '@/components/elements/ProjFooter';
-import ProjNav from '@/components/elements/ProjNav';
 import React from 'react'
+import Nav from '@/components/elements/Nav';
+import Foot from '@/components/elements/Foot';
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main id="main-content" className="my-10">
-      <ProjNav />
+      <Nav name="Projects" />
       {children}
-      <ProjFooter />
+      <Foot />
     </main>
   )
 }
