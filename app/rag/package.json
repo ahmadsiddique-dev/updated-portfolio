@@ -1,0 +1,27 @@
+{
+  "name": "rag",
+  "version": "1.0.1",
+  "description": "This is a support project for my main portofolio project",
+  "keywords": [
+    "rag",
+    "portfolio",
+    "ai"
+  ],
+  "license": "MIT",
+  "author": "ahmad siddique",
+  "type": "module",
+  "main": "/src/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "prettier": "^3.9.6"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  }
+}

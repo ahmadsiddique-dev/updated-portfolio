@@ -3,6 +3,6 @@ import { getSkillsQuery } from '@/sanity/lib/queries'
 import { GetSkillsQueryResult } from '@/sanity/types'
 
 
-export async function getSkills(tag: string) {
-  return client.fetch<GetSkillsQueryResult>(getSkillsQuery, { skillTag: tag })
+export async function getSkills() {
+  return client.fetch<GetSkillsQueryResult>(getSkillsQuery)
 }
