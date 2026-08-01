@@ -426,7 +426,7 @@ export type GetProjectQueryResult = Array<{
 
 // Source: ../web/src/sanity/lib/queries.ts
 // Variable: getSkillsQuery
-// Query: *[_type == 'skill' && tag == $tag] {  name,  "image": image.asset->url}
+// Query: *[_type == "skill" && tag == $skillTag] {  name,  "image": image.asset->url}
 export type GetSkillsQueryResult = Array<{
   name: string | null;
   image: string | null;
@@ -440,6 +440,6 @@ declare module "@sanity/client" {
     '\n  *[show == true && slug.current == $slug]{\n  _id,\n  title,\n  "image": image.asset->url,\n  time,\n  description,\n  detail,\n  createdAt,\n }\n': GetBlogQueryResult;
     "\n  *[_type == 'project' && show == true] {\n  _id,\n  createdAt,\n  description,\n  \"slug\": slug.current,\n  title\n}\n": GetProjectsQueryResult;
     '\n  *[_type == \'project\' && show == true && slug.current == $slug] {\n  _id,\n  createdAt,\n  description,\n  "image": image.asset->url,\n  "slug": slug.current,\n  title,\n  detail\n}\n': GetProjectQueryResult;
-    "\n  *[_type == 'skill' && tag == $tag] {\n  name,\n  \"image\": image.asset->url\n}\n": GetSkillsQueryResult;
+    '\n  *[_type == "skill" && tag == $skillTag] {\n  name,\n  "image": image.asset->url\n}\n': GetSkillsQueryResult;
   }
 }

@@ -15,6 +15,9 @@ export const skillType = defineType({
         name: 'image',
         title: 'Image',
         type: 'image',
+        options: {
+          hotspot: true,
+        },
         validation: (Rule) => Rule.required(),
     }),
     //  tags can be only one of the following: frontend, backend, database, devops, other.
