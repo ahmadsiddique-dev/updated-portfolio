@@ -9,6 +9,7 @@ import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai'
 import 'dotenv/config'
 import { MongoClient } from 'mongodb'
 import { MongoDBAtlasVectorSearch } from '@langchain/mongodb'
+import { sendEvents } from './lib/sendEvents.js';
 
 // come on! We know it
 const app = express();
@@ -54,19 +55,32 @@ app.post('/upload', upload.single('file'), async (req, res) => {
             res.status(400).send('10 MB file size limit exceeded.');
         }
 
+        sendEvents(res, {
+            message: `Received file: ${file?.originalname}`,
+            progress: 10,
+        })
         logger.info(`Received file: ${file?.originalname}, size: ${file?.size} bytes`);
 
         const parser = new PDFParse({
             data: file?.buffer,
         })
 
+        sendEvents(res, {
+            message: `Parsed file: ${file?.originalname}`,
+            progress: 30,
+        })
         logger.info(`Parsed File: [${file?.originalname}] done successfully.`);
+
 
         const result = await parser.getText();
         const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 400, chunkOverlap: 80 })
 
         const splitted = await splitter.splitText(result.text);
 
+        sendEvents(res, {
+            message: `Chunking of file: ${file?.originalname} is done successfully.`,
+            progress: 50,
+        })
         logger.info(`Splitted File: [${file?.originalname}] into ${splitted.length} chunks.`);
 
         const vectorStore = new MongoDBAtlasVectorSearch(embedings, {
@@ -76,10 +90,18 @@ app.post('/upload', upload.single('file'), async (req, res) => {
             embeddingKey: 'embedding',
         })
 
+        sendEvents(res, {
+            message: "Embeddings has been created successfull.",
+            progress: 70
+        })
         logger.info('Embeddings created successfully.');
 
         await vectorStore.addDocuments(splitted.map((text) => new Document({ pageContent: text })));
 
+        sendEvents(res, {
+            message: "Rag Pipeline completed.",
+            progress: 100
+        })
         logger.info(`Uploaded File: [${file?.originalname}] successfully.`);
 
         res.status(200).send('File uploaded and parsed successfully.');
