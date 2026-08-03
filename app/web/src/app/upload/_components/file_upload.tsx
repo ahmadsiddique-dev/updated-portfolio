@@ -1,5 +1,5 @@
 "use client";
- 
+
 import { Upload, X } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";
@@ -16,16 +16,23 @@ import {
   type FileUploadProps,
   FileUploadTrigger,
 } from "@/components/ui/file-upload";
- 
+
 export function FileUploadDirectUpload() {
   const [files, setFiles] = React.useState<File[]>([]);
- 
+
   const onUpload: NonNullable<FileUploadProps["onUpload"]> = React.useCallback(
     async (files, { onProgress, onSuccess, onError }) => {
       try {
-        
-        if (files[0].name) {
-          onProgress(files[0], 100); 
+        const formData = new FormData();
+        formData.append("file", files[0]);
+        const response = await fetch('http://localhost:7000/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          onProgress(files[0], 100);
+          onSuccess(files[0]);
         }
       } catch (error) {
         console.error("Unexpected error during upload:", error);
@@ -33,13 +40,13 @@ export function FileUploadDirectUpload() {
     },
     [],
   );
- 
+
   const onFileReject = React.useCallback((file: File, message: string) => {
     toast(message, {
       description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" has been rejected`,
     });
   }, []);
- 
+
   return (
     <FileUpload
       value={files}
