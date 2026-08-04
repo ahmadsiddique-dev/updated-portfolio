@@ -74,12 +74,20 @@ export const AIChatDrawer = () => {
     setMessages((prev) => [...prev, assistantMessage]);
 
     try {
+      const conversationHistory = [...messages, userMessage].map((m) => ({
+        role: m.role,
+        content: m.content,
+      }));
+
       const response = await fetch('http://localhost:7000/query', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query: userMessage.content }),
+        body: JSON.stringify({
+          query: userMessage.content,
+          messages: conversationHistory
+        }),
       });
 
       if (!response.ok) {
