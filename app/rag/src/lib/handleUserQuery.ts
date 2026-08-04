@@ -1,3 +1,5 @@
+// Ok now read the comments i wrote and hopefully you will get what is happening here?
+
 import type { Request, Response } from 'express';
 import { collection, embedings } from '../index.js'
 import { MongoDBAtlasVectorSearch } from '@langchain/mongodb';
@@ -16,29 +18,53 @@ export default async function handleUserQuery(req: Request, res: Response) {
         res.setHeader('Cache-Control', 'no-cache');
         res.setHeader('Connection', 'keep-alive');
 
-        // const vectorStore = new MongoDBAtlasVectorSearch(embedings, {
-        //     collection,
-        //     indexName: 'data',
-        //     textKey: 'text',
-        //     embeddingKey: 'embedding',
-        // })
-
-        // const results = await vectorStore.similaritySearch(query, 3);
-        
-
         const stream = client.messages.stream({
-            system: `You're a responsible AI assistant. You are integrated in a Portofolio of a FullStack Web
-            Developer. His name is ahmad siddique. Whenever someone comes you've to answer their questions
-            in a friendly and professional manner.
+            system: `You're an AI assistant that is integrated in ahmad siddique's portfolio and when someone comes and asks about him if you don't have information then call given tool or if you don't find result then simpley accept it.
             `,
             model: "claude-sonnet-5",
             max_tokens: 1000,
+            tools: [
+                {
+                    name: "search",
+                    description: "Use this tool when you need to fetch information regarding ahmad siddique's portfolio and other things like blogs, projects, skills, is he ready to work or not, and other related information.",
+                    input_schema: {
+                        type: 'object',
+                        properties: {
+                            query: {
+                                type: 'string'
+                             }
+                        },
+                        required: ['query']
+                    },
+                    input_examples: [
+                        {
+                            query: "What is the age of ahmad siddique and also his qualifications?"
+                        }
+                    ]
+                }
+            ],
             messages: [
                 {
                     role: "user",
                     content: query
                 }
             ]
+        })
+
+        stream.on('contentBlock', async (block) => {
+            if (block.type === "tool_use") {
+                const { query: toolQuery } = await block.input as { query: string };
+                const vectorStore = new MongoDBAtlasVectorSearch(embedings, {
+                    collection,
+                    indexName: 'data',
+                    textKey: 'text',
+                    embeddingKey: 'embedding',
+                })
+
+                const results = await vectorStore.similaritySearch(toolQuery, 3);
+                console.log('RAG Results:', results);
+                results;
+            }
         })
 
         stream.on('text', (text) => {
@@ -61,3 +87,7 @@ export default async function handleUserQuery(req: Request, res: Response) {
     }
 }
 
+
+// async function handleRAGFlow(query: string) {
+
+// }

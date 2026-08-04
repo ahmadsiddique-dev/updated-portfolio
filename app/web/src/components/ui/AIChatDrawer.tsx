@@ -110,11 +110,30 @@ export const AIChatDrawer = () => {
                   break;
                 }
                 if (data.startsWith('[ERROR]')) {
-                  const errorMsg = data.slice(7);
+                  const rawError = data.slice(7).trim();
+                  let displayError = "Sorry, I'm having trouble responding right now. Please try again.";
+                  
+                  try {
+                    const jsonStart = rawError.indexOf('{');
+                    if (jsonStart !== -1) {
+                      const jsonStr = rawError.slice(jsonStart);
+                      const parsed = JSON.parse(jsonStr);
+                      if (parsed?.error?.message) {
+                        displayError = parsed.error.message;
+                      } else if (parsed?.message) {
+                        displayError = parsed.message;
+                      }
+                    } else {
+                      displayError = rawError;
+                    }
+                  } catch (e) {
+                    displayError = rawError;
+                  }
+
                   setMessages((prev) =>
                     prev.map((msg) =>
                       msg.id === assistantMessageId
-                        ? { ...msg, content: msg.content + `\n[Error: ${errorMsg}]` }
+                        ? { ...msg, content: `Error: ${displayError}` }
                         : msg
                     )
                   );
