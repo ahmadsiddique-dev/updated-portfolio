@@ -86,72 +86,15 @@ export const AIChatDrawer = () => {
         throw new Error('Failed to fetch response');
       }
 
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      let done = false;
-      let buffer = "";
-
-      while (!done) {
-        const { value, done: readerDone } = await reader!.read();
-        done = readerDone;
-        if (value) {
-          buffer += decoder.decode(value, { stream: !done });
-
-          const parts = buffer.split('\n\n');
-          buffer = parts.pop() || "";
-
-          for (const part of parts) {
-            const lines = part.split('\n');
-            for (const line of lines) {
-              if (line.startsWith('data: ')) {
-                const data = line.slice(6);
-                if (data === '[DONE]') {
-                  done = true;
-                  break;
-                }
-                if (data.startsWith('[ERROR]')) {
-                  const rawError = data.slice(7).trim();
-                  let displayError = "Sorry, I'm having trouble responding right now. Please try again.";
-                  
-                  try {
-                    const jsonStart = rawError.indexOf('{');
-                    if (jsonStart !== -1) {
-                      const jsonStr = rawError.slice(jsonStart);
-                      const parsed = JSON.parse(jsonStr);
-                      if (parsed?.error?.message) {
-                        displayError = parsed.error.message;
-                      } else if (parsed?.message) {
-                        displayError = parsed.message;
-                      }
-                    } else {
-                      displayError = rawError;
-                    }
-                  } catch (e) {
-                    displayError = rawError;
-                  }
-
-                  setMessages((prev) =>
-                    prev.map((msg) =>
-                      msg.id === assistantMessageId
-                        ? { ...msg, content: `Error: ${displayError}` }
-                        : msg
-                    )
-                  );
-                  break;
-                }
-
-                setMessages((prev) =>
-                  prev.map((msg) =>
-                    msg.id === assistantMessageId
-                      ? { ...msg, content: msg.content + data }
-                      : msg
-                  )
-                );
-              }
-            }
-          }
-        }
-      }
+      const data = await response.json();
+      console.log("Data received from server:", data.response[0]);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantMessageId
+            ? { ...msg, content: data.response[0] }
+            : msg
+        )
+      );
     } catch (error) {
       console.error(error);
       setMessages((prev) =>

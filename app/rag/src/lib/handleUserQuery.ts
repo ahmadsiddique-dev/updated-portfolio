@@ -3,123 +3,64 @@
 import type { Request, Response } from 'express';
 import { collection, embedings } from '../index.js'
 import { MongoDBAtlasVectorSearch } from '@langchain/mongodb';
+import { betaZodTool } from '@anthropic-ai/sdk/helpers/beta/zod'
+import { z } from 'zod'
 import { Anthropic } from '@anthropic-ai/sdk'
 
 const client = new Anthropic({
     apiKey: process.env['ANTHROPIC_API_KEY']!,
 })
 
+const searchTool = betaZodTool({
+    name: "search",
+    description: "Use this tool when you need to fetch information regarding ahmad siddique's portfolio and other things like blogs, projects, skills, is he ready to work or not, and other related information.",
+    inputSchema: z.object({
+        query: z.string()
+    }),
+    run: async (input) => {
+        const vectorStore = new MongoDBAtlasVectorSearch(embedings, {
+            collection,
+            indexName: 'data',
+            textKey: 'text',
+            embeddingKey: 'embedding',
+        })
+
+        const results = await vectorStore.similaritySearch(input.query, 3);
+        console.log('Results from MongoDB Atlas Vector Search:', results.map((doc) => doc.pageContent).join('\n\n'));
+        return results.map((doc) => doc.pageContent).join('\n\n');
+    }
+})
+
 export default async function handleUserQuery(req: Request, res: Response) {
     // wrap in try catch block to handle errors
+
     try {
-        const { query } = await req.body;
+        const { messages, query } = await req.body;
+        const chatMessages = messages || [{ role: "user", content: query }];
 
-        res.setHeader('Content-Type', 'text/event-stream');
-        res.setHeader('Cache-Control', 'no-cache');
-        res.setHeader('Connection', 'keep-alive');
-
-        const stream = client.messages.stream({
-            system: `You're an AI assistant that is integrated in ahmad siddique's portfolio and when someone comes and asks about him if you don't have information then call given tool or if you don't find result then simpley accept it.
-            `,
+        const response = await client.beta.messages.toolRunner({
             model: "claude-sonnet-5",
-            max_tokens: 1000,
-            tools: [
-                {
-                    name: "search",
-                    description: "Use this tool when you need to fetch information regarding ahmad siddique's portfolio and other things like blogs, projects, skills, is he ready to work or not, and other related information.",
-                    input_schema: {
-                        type: 'object',
-                        properties: {
-                            query: {
-                                type: 'string'
-                            }
-                        },
-                        required: ['query']
-                    },
-                    input_examples: [
-                        {
-                            query: "What is the age of ahmad siddique and also his qualifications?"
-                        }
-                    ]
-                }
-            ],
-            messages: [
-                {
-                    role: "user",
-                    content: query
-                }
-            ]
-        })
+            system: "You're a helpful assistant for Ahmad Siddique's portfolio website. Use the search tool to find information when asked about Ahmad, his skills, projects, or background.",
+            max_tokens: 1024,
+            stream: false,
+            tools: [searchTool] as any,
+            messages: chatMessages,
+            tool_choice: { type: "auto", disable_parallel_tool_use: true }
+        }).runUntilDone();
 
-        stream.on('contentBlock', async (block) => {
-            if (block.type === "tool_use") {
-                const { query: toolQuery } = await block.input as { query: string };
-                const vectorStore = new MongoDBAtlasVectorSearch(embedings, {
-                    collection,
-                    indexName: 'data',
-                    textKey: 'text',
-                    embeddingKey: 'embedding',
-                })
-
-                const results = await vectorStore.similaritySearch(toolQuery, 3);
-
-                const toolOutput = results.map((doc) => doc.pageContent).join('\n\n');
-
-                const secondStream = client.messages.stream({
-                    model: 'claude-sonnet-5',
-                    system: "you answer using provided information",
-                    max_tokens: 1000,
-                    messages: [
-                        {
-                            role: "user",
-                            content: query
-                        },
-                        {
-                            role: "assistant",
-                            content: [
-                                block
-                            ]
-                        },
-                        {
-                            role: "user",
-                            content: [
-                                {
-                                    type: "tool_result",
-                                    tool_use_id: block.id,
-                                    content: toolOutput
-                                }
-                            ]
-                        }
-                    ]
-                })
-
-                secondStream.on('text', (text) => {
-                    res.write(`data: ${text}\n\n`);
-                })
+        const textResponse = response.content.map((message) => {
+            if (message.type === 'text') {
+                return message.text;
             }
+            return '';
         })
 
-        stream.on('text', (text) => {
-            res.write(`data: ${text}\n\n`);
-        })
+        console.log('Response from Anthropic API:', textResponse);
 
-        stream.on('end', () => {
-            res.write('data: [DONE]\n\n');
-            res.end();
-        })
-
-        stream.on('error', (err) => {
-            res.write(`data: [ERROR] ${err instanceof Error ? err.message : 'Unknown error'}\n\n`);
-            res.end();
-        });
+        res.status(200).json({ response: textResponse });
 
     } catch (error) {
         console.error('Error handling user query:', error);
         res.status(500).send('Internal Server Error');
     }
 }
-
-
-// async function handleRAGFlow(query: string) {
-
-// }
