@@ -95,7 +95,7 @@ export const AIChatDrawer = () => {
       }
 
       const data = await response.json();
-      console.log("Data received from server:", data.response[0]);
+      console.log("Data received from server:", data.response);
       setMessages((prev) =>
         prev.map((msg) =>
           msg.id === assistantMessageId

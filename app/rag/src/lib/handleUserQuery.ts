@@ -31,6 +31,22 @@ const searchTool = betaZodTool({
     }
 })
 
+const saveDataTool = betaZodTool({
+    name: "saveData",
+    description: "Use this tool to once you have fullname and contact information.",
+    inputSchema: z.object({
+        name: z.string(),
+        contact: z.string(),
+    }),
+    run: async (input) => {
+        const { name, contact } = input;
+        const data = { name, contact };
+        const result = await collection.insertOne(data);
+        console.log('Data saved to MongoDB:', result);
+        return `Data saved successfully with id: ${result.insertedId}`;
+    }
+})
+
 export default async function handleUserQuery(req: Request, res: Response) {
     // wrap in try catch block to handle errors
 
@@ -40,10 +56,10 @@ export default async function handleUserQuery(req: Request, res: Response) {
 
         const response = await client.beta.messages.toolRunner({
             model: "claude-sonnet-5",
-            system: "You're a helpful assistant for Ahmad Siddique's portfolio website. Use the search tool to find information when asked about Ahmad, his skills, projects, or background.",
+            system: "You're a helpful assistant for Ahmad Siddique's portfolio website. Use the search tool to find information when asked about Ahmad, his skills, projects, or background. Also you have to get information(fullname, or any way to contact) in a professional manner from user and save it in the database using tool.",
             max_tokens: 1024,
             stream: false,
-            tools: [searchTool] as any,
+            tools: [searchTool, saveDataTool] as any,
             messages: chatMessages,
             tool_choice: { type: "auto", disable_parallel_tool_use: true }
         }).runUntilDone();
