@@ -32,7 +32,7 @@ export default async function handleUserQuery(req: Request, res: Response) {
                         properties: {
                             query: {
                                 type: 'string'
-                             }
+                            }
                         },
                         required: ['query']
                     },
@@ -62,8 +62,40 @@ export default async function handleUserQuery(req: Request, res: Response) {
                 })
 
                 const results = await vectorStore.similaritySearch(toolQuery, 3);
-                console.log('RAG Results:', results);
-                results;
+
+                const toolOutput = results.map((doc) => doc.pageContent).join('\n\n');
+
+                const secondStream = client.messages.stream({
+                    model: 'claude-sonnet-5',
+                    system: "you answer using provided information",
+                    max_tokens: 1000,
+                    messages: [
+                        {
+                            role: "user",
+                            content: query
+                        },
+                        {
+                            role: "assistant",
+                            content: [
+                                block
+                            ]
+                        },
+                        {
+                            role: "user",
+                            content: [
+                                {
+                                    type: "tool_result",
+                                    tool_use_id: block.id,
+                                    content: toolOutput
+                                }
+                            ]
+                        }
+                    ]
+                })
+
+                secondStream.on('text', (text) => {
+                    res.write(`data: ${text}\n\n`);
+                })
             }
         })
 
