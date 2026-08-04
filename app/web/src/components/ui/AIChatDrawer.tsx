@@ -6,10 +6,28 @@ import Markdown from "react-markdown";
 import { Card } from "./card";
 import { Skeleton } from "./skeleton";
 import { Button } from "./button";
-import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from "./input-group";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger
+} from "@/components/ui/drawer";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroupTextarea
+} from "./input-group";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from "./tooltip";
 import { ArrowUp, Bot, X } from "lucide-react";
+
 
 const AssistantSkeleton = () => (
   <div className="max-w-[85%] px-2 my-2.5 py-2 space-y-2">
@@ -21,20 +39,41 @@ const AssistantSkeleton = () => (
 
 export const AIChatDrawer = () => {
   const [input, setInput] = useState("");
-  const { messages, sendMessage, status } = useChat();
-  const isLoading = status === "submitted" || status === "streaming";
+  // const isLoading = status === "submitted" || status === "streaming";
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    });
-  }, [messages, status]);
+  // useEffect(() => {
+  //   requestAnimationFrame(() => {
+  //     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  //   });
+  // }, [, status]);
 
-  const handleSubmit = () => {
-    if (!input.trim() || isLoading) return;
-    sendMessage({ text: input });
-    setInput("");
+  const handleSubmit = async() => {
+    // if (!input.trim() || isLoading) return;
+    // sendMessage({ text: input });
+    const response = await fetch('http://localhost:7000/query', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query: input }),
+    });
+
+    if (response.ok) {
+      setInput('');
+    }
+    
+    const reader = await response.body?.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    while (!done) {
+      const { value, done: readerDone } = await reader!.read();
+      done = readerDone;
+      const chunk = decoder.decode(value);
+      console.log('Received chunk:', chunk);
+    }
+    console.log('Stream ended');
   };
 
   return (
@@ -64,7 +103,7 @@ export const AIChatDrawer = () => {
         </DrawerHeader>
 
         <div className="no-scrollbar overflow-y-auto px-4" role="log" aria-live="polite" aria-label="Chat messages">
-          {messages.map((message) => (
+          {/* {messages.length > 0 ? (messages.map((message) => (
             <div key={message.id} className="whitespace-pre-wrap">
               {message.role === "user" ? (
                 message.parts.map((part, i) =>
@@ -88,19 +127,23 @@ export const AIChatDrawer = () => {
                 </Card>
               )}
             </div>
-          ))}
-          {isLoading && <AssistantSkeleton />}
+          ))) : (
+            <div className="max-w-[85%] px-2 my-2.5 py-2 space-y-2">
+              <p className="text-sm text-muted-foreground self-center text-center">Hey good to see you! I am an Assistant <strong className="text-blue-400">"Hami"</strong>,  what's your name?</p>
+            </div>
+          )} */}
+          {/* {isLoading && <AssistantSkeleton />} */}
         </div>
         <div ref={bottomRef} />
         <DrawerFooter>
           <InputGroup>
             <InputGroupTextarea
-              maxLength={280}
-              placeholder={isLoading ? "Thinking..." : "Write a comment..."}
+              maxLength={500}
+              // placeholder={isLoading ? "Thinking..." : "Write a comment..."}
               className="max-h-25 no-scrollbar disabled:opacity-60"
               aria-label="Type your message"
               value={input}
-              disabled={isLoading}
+              // disabled={isLoading}
               onChange={(e) => setInput(e.currentTarget.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -110,10 +153,10 @@ export const AIChatDrawer = () => {
               }}
             />
             <InputGroupAddon align="block-end">
-              <InputGroupText>{input.length}/280</InputGroupText>
+              <InputGroupText>{input.length}/500</InputGroupText>
               <Button
                 onClick={handleSubmit}
-                disabled={isLoading || !input.trim()}
+                // disabled={isLoading || !input.trim()}
                 variant="default"
                 className="ml-auto rounded-lg py-1.5 px-1.5!"
               >
