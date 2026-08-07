@@ -11,6 +11,7 @@ const client = new Anthropic({
     apiKey: process.env['ANTHROPIC_API_KEY']!,
 })
 
+// Well i found this the only way 
 const searchTool = betaZodTool({
     name: "search",
     description: "Use this tool when you need to fetch information regarding ahmad siddique's portfolio and other things like blogs, projects, skills, is he ready to work or not, and other related information.",
@@ -26,7 +27,9 @@ const searchTool = betaZodTool({
         })
 
         const results = await vectorStore.similaritySearch(input.query, 3);
-        console.log('Results from MongoDB Atlas Vector Search:', results.map((doc) => doc.pageContent).join('\n\n'));
+        console.log("******************************************");
+        console.log('Search results:');
+        console.log("******************************************");
         return results.map((doc) => doc.pageContent).join('\n\n');
     }
 })
@@ -55,8 +58,8 @@ export default async function handleUserQuery(req: Request, res: Response) {
         const chatMessages = messages || [{ role: "user", content: query }];
 
         const response = await client.beta.messages.toolRunner({
-            model: "claude-sonnet-5",
-            system: "You're a helpful assistant for Ahmad Siddique's portfolio website. Use the search tool to find information when asked about Ahmad, his skills, projects, or background. Also you have to get information(fullname, or any way to contact) in a professional manner from user and save it in the database using tool.",
+            model: "claude-haiku-4-5",
+            system: "You're a helpful assistant for Ahmad Siddique's portfolio website. Use the search tool to find information when asked about Ahmad, his skills, projects, or background. Also you have to get information(fullname, or any way to contact) in a professional manner from user and save it in the database using tool. If they don't wanted to give information then no worries just do your job and answer their queries.",
             max_tokens: 1024,
             stream: false,
             tools: [searchTool, saveDataTool] as any,

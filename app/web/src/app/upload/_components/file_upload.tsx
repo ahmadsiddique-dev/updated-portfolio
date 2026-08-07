@@ -33,7 +33,14 @@ export function FileUploadDirectUpload() {
         if (response.ok) {
           onProgress(files[0], 100);
           onSuccess(files[0]);
+          toast.success(`File "${files[0].name}" uploaded successfully!`, {
+            richColors: true,
+            closeButton: true,
+            position: "top-center",
+          })
+          setFiles([]); 
         }
+        
       } catch (error) {
         console.error("Unexpected error during upload:", error);
       }

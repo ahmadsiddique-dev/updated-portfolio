@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import { Card } from "./card";
-import { Skeleton } from "./skeleton";
+import { Loader2 } from 'lucide-react'
 import { Button } from "./button";
 import {
   Drawer,
@@ -26,20 +26,13 @@ import {
   TooltipTrigger
 } from "./tooltip";
 import { ArrowUp, Bot, X } from "lucide-react";
+import remarkGfm, { } from 'remark-gfm'
 
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
 }
-
-const AssistantSkeleton = () => (
-  <div className="max-w-[85%] px-2 my-2.5 py-2 space-y-2 flex-1">
-    <Skeleton className="h-3 w-[80%] bg-neutral-200 dark:bg-neutral-800" />
-    <Skeleton className="h-3 w-[65%] bg-neutral-200 dark:bg-neutral-800" />
-    <Skeleton className="h-3 w-[40%] bg-neutral-200 dark:bg-neutral-800" />
-  </div>
-);
 
 export const AIChatDrawer = () => {
   const [input, setInput] = useState("");
@@ -153,17 +146,15 @@ export const AIChatDrawer = () => {
                   </div>
                 ) : (
                   <div className="flex gap-2 max-w-[85%] items-start">
-                    {message.content === "" && isLoading ? (
-                      <AssistantSkeleton />
-                    ) : (
-                      <Card className="p-3.5 text-start overflow-hidden text-wrap bg-neutral-50 dark:bg-neutral-900 border-none shadow-none rounded-2xl">
-                        <div className="prose prose-sm dark:prose-invert">
-                          <Markdown>
-                            {message.content}
-                          </Markdown>
+                    { message.content && (
+                        <div>
+                          <Card className="bg-neutral-100 dark:bg-neutral-950 text-sm px-3.5 py-2.5 rounded-2xl">
+                            <Markdown
+                              remarkPlugins={[remarkGfm]}
+                            >{message.content}</Markdown>
+                          </Card>
                         </div>
-                      </Card>
-                    )}
+                      )}
                   </div>
                 )}
               </div>
@@ -205,7 +196,7 @@ export const AIChatDrawer = () => {
                 variant="default"
                 className="ml-auto rounded-lg py-1.5 px-1.5!"
               >
-                <ArrowUp />
+               {isLoading ? <Loader2 className="animate-spin" /> : <ArrowUp />}
               </Button>
             </InputGroupAddon>
           </InputGroup>
