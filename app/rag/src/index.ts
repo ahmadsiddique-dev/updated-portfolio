@@ -12,7 +12,10 @@ const app = express();
 const port = process.env['PORT'] || 7000;
 
 // Middlewares ig
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: "https://ahmadsblog.vercel.app"
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
