@@ -1,8 +1,8 @@
 # My Portfolio
-yes my portofolio not blog initially i wanted to solve the blogs problem of my portfolio but then I made my blog section too good that i wanted to redesign it my portofolio
+This project started as a blog system for my portfolio but evolved into a complete portfolio platform with an AI-powered RAG assistant.
 
 > 
-![alt text](image.png)
+![ahmad siddique portfolio image](image.png)
 
 ## Tech Stack
 - **Nodejs**: It's a js runtime fyi
@@ -52,7 +52,7 @@ and paste
 
 ```bash
 MONGODB_URI=mongodb_atlas_uri
-# mongodb atlas is important because you need to enable atlas search which cannot do with local db
+# MongoDB Atlas is required because Atlas Vector Search is used for similarity search.
 
 GOOGLE_API_KEY=get_it_from_ai_studio
 # using embeding model of google
