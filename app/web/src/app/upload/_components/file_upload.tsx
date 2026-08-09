@@ -25,7 +25,7 @@ export function FileUploadDirectUpload() {
       try {
         const formData = new FormData();
         formData.append("file", files[0]);
-        const response = await fetch('http://localhost:7000/upload', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_RAG_BACKEND_URL}/upload`, {
           method: 'POST',
           body: formData,
         });

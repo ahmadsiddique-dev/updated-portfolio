@@ -72,7 +72,7 @@ export const AIChatDrawer = () => {
         content: m.content,
       }));
 
-      const response = await fetch('http://localhost:7000/query', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_RAG_BACKEND_URL}/query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
