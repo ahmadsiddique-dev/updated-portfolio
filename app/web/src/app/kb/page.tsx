@@ -17,7 +17,7 @@ const page = async () => {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-14">
-      <h1 className="text-3xl font-bold tracking-tight">Knowledge Base</h1>
+      <h1 className="text-3xl font-bold tracking-tight">Contacts Information</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Contacts fetched that were created by AI model
       </p>
