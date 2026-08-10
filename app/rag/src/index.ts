@@ -4,7 +4,7 @@ import cors from 'cors';
 import multer from 'multer';
 import pino from 'pino';
 import { handleDocUpload } from './lib/handleDocUpload.js';
-import handleUserQuery from './lib/handleUserQuery.js'
+import handleUserQuery from './lib/handleUserQuery.js';
 import { MongoClient } from 'mongodb'
 import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai'
 // come on! We know it
@@ -28,6 +28,7 @@ export const logger = pino({
         }
     },
 });
+
 const client = new MongoClient(process.env["MONGODB_URI"]!)
 export const RagCollection = client
     .db(process.env['DB_NAME'])
