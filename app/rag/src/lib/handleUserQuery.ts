@@ -1,7 +1,7 @@
 // Ok now read the comments i wrote and hopefully you will get what is happening here?
 
 import type { Request, Response } from 'express';
-import { collection, embedings } from '../index.js'
+import { RagCollection, embedings, ContactCollection } from '../index.js'
 import { MongoDBAtlasVectorSearch } from '@langchain/mongodb';
 import { betaZodTool } from '@anthropic-ai/sdk/helpers/beta/zod'
 import { z } from 'zod'
@@ -20,16 +20,13 @@ const searchTool = betaZodTool({
     }),
     run: async (input) => {
         const vectorStore = new MongoDBAtlasVectorSearch(embedings, {
-            collection,
+            collection: RagCollection,
             indexName: 'data',
             textKey: 'text',
             embeddingKey: 'embedding',
         })
 
         const results = await vectorStore.similaritySearch(input.query, 3);
-        console.log("******************************************");
-        console.log('Search results:');
-        console.log("******************************************");
         return results.map((doc) => doc.pageContent).join('\n\n');
     }
 })
@@ -44,7 +41,7 @@ const saveDataTool = betaZodTool({
     run: async (input) => {
         const { name, contact } = input;
         const data = { name, contact };
-        const result = await collection.insertOne(data);
+        const result = await ContactCollection.insertOne(data);
         console.log('Data saved to MongoDB:', result);
         return `Data saved successfully with id: ${result.insertedId}`;
     }
@@ -59,7 +56,7 @@ export default async function handleUserQuery(req: Request, res: Response) {
 
         const response = await client.beta.messages.toolRunner({
             model: "claude-haiku-4-5",
-            system: "You're a helpful assistant for Ahmad Siddique's portfolio website. Use the search tool to find information when asked about Ahmad, his skills, projects, or background. Also you have to get information(fullname, or any way to contact) in a professional manner from user and save it in the database using tool. If they don't wanted to give information then no worries just do your job and answer their queries.",
+            system: "You're a helpful assistant named 'Hami' for Ahmad Siddique's portfolio website. Use the search tool to find information when asked about Ahmad, his skills, projects, or background. Also you have to get information(fullname, or any way to contact) in a professional manner from user and save it in the database using tool. If they don't wanted to give information then no worries just do your job and answer their queries.",
             max_tokens: 1024,
             stream: false,
             tools: [searchTool, saveDataTool] as any,

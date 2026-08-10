@@ -14,7 +14,7 @@ const port = process.env['PORT'] || 7000;
 // Middlewares ig
 app.use(cors({
     credentials: true,
-    origin: "https://ahmadsblog.vercel.app"
+    origin: process.env['ORIGIN']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,9 +29,12 @@ export const logger = pino({
     },
 });
 const client = new MongoClient(process.env["MONGODB_URI"]!)
-export const collection = client
+export const RagCollection = client
     .db(process.env['DB_NAME'])
     .collection(process.env['COLLECTION_NAME']!);
+export const ContactCollection = client
+    .db(process.env['DB_NAME'])
+    .collection('contact')
 export const embedings = new GoogleGenerativeAIEmbeddings({
     apiKey: process.env['GOOGLE_API_KEY']!,
     model: "gemini-embedding-2"

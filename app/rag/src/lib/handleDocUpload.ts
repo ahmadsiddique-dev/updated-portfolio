@@ -3,7 +3,7 @@ import { PDFParse } from 'pdf-parse';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { Document } from '@langchain/core/documents';
 import { MongoDBAtlasVectorSearch } from '@langchain/mongodb'
-import { embedings, collection, logger } from '../index.js';
+import { embedings, RagCollection, logger } from '../index.js';
 
 export const handleDocUpload = async (req: Request, res: Response) => {
     try {
@@ -31,7 +31,7 @@ export const handleDocUpload = async (req: Request, res: Response) => {
         logger.info(`Splitted File: [${file?.originalname}] into ${splitted.length} chunks.`);
 
         const vectorStore = new MongoDBAtlasVectorSearch(embedings, {
-            collection,
+            collection: RagCollection,
             indexName: 'data',
             textKey: 'text',
             embeddingKey: 'embedding',
