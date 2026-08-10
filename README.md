@@ -4,14 +4,17 @@ This project started as a blog system for my portfolio but evolved into a comple
 > 
 ![ahmad siddique portfolio image](image.png)
 
+## Routes
+![routes image](image-1.png)
+
 ## Tech Stack
-- **Nodejs**: It's a js runtime fyi
-- **Express**: It's a framework if you know you know
+- **Nodejs + Express**: Backend for RAG
 - **Nextjs**: We know why we use Nextjs 
 - **Sanity**: Content Operation Management
 - **ClaudeSDK**: For AI operations
 - **Tailwind**: Because I can't write CSS 
 - **Shadcn UI**: UI library to make my life easy
+- **MongoDB**: Database
 
 ## Installation
 **git** must be installed on your system before proceding:
