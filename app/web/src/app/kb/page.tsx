@@ -10,6 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+export const dynamic = "force-dynamic";
+
 const page = async () => {
   const db = await MongoClient.connect(process.env.MONGODB_URI || '');
   const contactsCollection = db.db('portfolio').collection('contact');
