@@ -3,7 +3,7 @@ import Link from 'next/link'
 const Nav = ({ name }: {name: string}) => {
   return (
     <nav className='text-muted-foreground cursor-pointer hover:text-gray-100 duration-200' aria-label="Breadcrumb">
-      <Link className='flex justify-start items-center gap-0.5' href="/project">
+      <Link className='flex justify-start items-center gap-0.5' href={`/${name.toLowerCase()}`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
