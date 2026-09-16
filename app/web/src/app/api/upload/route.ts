@@ -3,7 +3,7 @@ import { extractText } from 'unpdf'
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters'
 import { embedMany } from 'ai'
 import db from '@/lib/db'
-import EmbeddignsModel, { IEmbeddings } from '@/models/embeddings.model'
+import { IEmbeddings, Embeddings } from '@/models/embeddings.model'
 
 export async function POST(request: NextRequest) {
     try {
@@ -58,7 +58,7 @@ async function embedText(chunks: string[]): Promise<IEmbeddings[]> {
 
     await db();
 
-    const response = await EmbeddignsModel.insertMany(data);
+    const response = await Embeddings.insertMany(data);
 
     return response;
 }

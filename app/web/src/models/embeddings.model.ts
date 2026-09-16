@@ -20,4 +20,4 @@ const embeddingsSchema: Schema<IEmbeddings> = new Schema({
 
 const Embeddings = models.Embeddings || model('Embeddings', embeddingsSchema);
 
-export default Embeddings;
+export { Embeddings };

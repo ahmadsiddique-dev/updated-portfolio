@@ -120,7 +120,7 @@ export const AIChatDrawer = () => {
             <div className="flex-1 flex flex-col items-center justify-center">
               <div className="max-w-[85%] text-center space-y-3">
                 <p className="text-sm text-neutral-500">
-                  Hi there! It's really nice to have you. I'm <strong className="text-sky-400">Hami</strong> Ahmad's AI Assistant. What's your name?
+                  Hi there! It's really nice to have you. I'm <strong className="text-white">Hami</strong> Ahmad's AI Assistant. What's your name?
                 </p>
               </div>
             </div>

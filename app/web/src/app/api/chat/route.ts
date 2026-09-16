@@ -1,4 +1,4 @@
-import { streamText, convertToModelMessages, tool } from 'ai'
+import { streamText, convertToModelMessages, tool, stepCountIs } from 'ai'
 import { tools } from './tools';
 
 const system = `
@@ -93,7 +93,8 @@ export async function POST(req: Request) {
             model: "openai/gpt-5-mini",
             system: system,
             messages: modelMessages,
-            tools: tools
+            tools: tools,
+            stopWhen: stepCountIs(5)
         });
 
         return response.toUIMessageStreamResponse();
