@@ -3,7 +3,7 @@ import React from 'react'
 const HeatMap = () => {
     return (
         <div>
-            <h2 className="text-3xl font-semibold mb-2">Hackatime Activity</h2>
+            <h2 className="text-3xl font-semibold mb-2">Activity</h2>
             <p className="text-sm text-muted-foreground">Realtime stats of Year 2026</p>
             <div className="mt-7">
                 <img
