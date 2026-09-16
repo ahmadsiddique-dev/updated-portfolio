@@ -25,7 +25,7 @@ export function FileUploadDirectUpload() {
       try {
         const formData = new FormData();
         formData.append("file", files[0]);
-        const response = await fetch(`${process.env.NEXT_PUBLIC_RAG_BACKEND_URL}/upload`, {
+        const response = await fetch(`/api/upload`, {
           method: 'POST',
           body: formData,
         });
@@ -62,7 +62,6 @@ export function FileUploadDirectUpload() {
       onFileReject={onFileReject}
       maxFiles={1}
       className="w-full max-w-md"
-      multiple
       accept=".pdf, .txt, .docx"
     >
       <FileUploadDropzone>

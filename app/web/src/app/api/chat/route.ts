@@ -1,23 +1,18 @@
-import { streamText, UIMessage, convertToModelMessages } from 'ai';
-import { google } from "@ai-sdk/google";
-import { instruction } from '@/data/prompt.json'
+import { streamText, convertToModelMessages } from 'ai'
 
 export async function POST(req: Request) {
-  try {
-    const { messages }: { messages: UIMessage[] } = await req.json();
+    try {
+        const { messages } = await req.json();
 
-    const result = streamText({
-      model: google("gemini-2.5-flash-lite"),
-      messages: await convertToModelMessages(messages),
-      system: instruction,
-    });
+        const modelMessages = await convertToModelMessages(messages);
 
-    return result.toUIMessageStreamResponse();
-  } catch (error) {
-    console.error("[Chat API Error]", error);
-    return new Response(
-      JSON.stringify({ error: "Failed to process your message. Please try again." }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
-  }
+        const response = await streamText({
+            model: "openai/gpt-5-mini",
+            messages: modelMessages,
+        });
+
+        return response.toUIMessageStreamResponse();
+    } catch (error) {
+        console.error("Error in POST /api/chat:", error.message);
+    }
 }

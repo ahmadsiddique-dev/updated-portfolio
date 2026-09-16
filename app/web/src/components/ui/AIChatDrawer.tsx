@@ -5,6 +5,7 @@ import Markdown from "react-markdown";
 import { Card } from "./card";
 import { Loader2 } from 'lucide-react'
 import { Button } from "./button";
+import { useChat } from '@ai-sdk/react'
 import {
   Drawer,
   DrawerClose,
@@ -28,86 +29,22 @@ import {
 import { ArrowUp, Bot, X } from "lucide-react";
 import remarkGfm, { } from 'remark-gfm'
 
-interface Message {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-}
 
 export const AIChatDrawer = () => {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const { messages, sendMessage, status, error } = useChat({})
+  const [input, setInput] = useState<string>("");
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   const handleSubmit = async () => {
-    if (!input.trim() || isLoading) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: "user",
-      content: input,
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setInput('');
-    setIsLoading(true);
-
-    const assistantMessageId = (Date.now() + 1).toString();
-    const assistantMessage: Message = {
-      id: assistantMessageId,
-      role: "assistant",
-      content: "",
-    };
-
-    setMessages((prev) => [...prev, assistantMessage]);
-
-    try {
-      const conversationHistory = [...messages, userMessage].map((m) => ({
-        role: m.role,
-        content: m.content,
-      }));
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_RAG_BACKEND_URL}/query`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: userMessage.content,
-          messages: conversationHistory
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch response');
-      }
-
-      const data = await response.json();
-      console.log("Data received from server:", data.response);
-      setMessages((prev) =>
-        prev.map((msg) =>
-          msg.id === assistantMessageId
-            ? { ...msg, content: data.response[0] }
-            : msg
-        )
-      );
-    } catch (error) {
-      console.error(error);
-      setMessages((prev) =>
-        prev.map((msg) =>
-          msg.id === assistantMessageId
-            ? { ...msg, content: "Sorry, I encountered an error connecting to the assistant." }
-            : msg
-        )
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    if (!input.trim()) return;
+    await sendMessage({ text: input });
+    setInput("");
   };
 
   return (
@@ -142,19 +79,39 @@ export const AIChatDrawer = () => {
               <div key={message.id} className={`flex flex-col ${message.role === "user" ? "items-end" : "items-start"}`}>
                 {message.role === "user" ? (
                   <div className="text-sm px-3.5 py-2.5 bg-neutral-900 text-white rounded-2xl max-w-[85%]">
-                    {message.content}
+                    {message.parts.map((part, index) => (
+                      <Markdown key={index} remarkPlugins={[remarkGfm]}>{(part.type == 'text') && part.text || ""}</Markdown>
+                    ))}
                   </div>
                 ) : (
                   <div className="flex gap-2 max-w-[85%] items-start">
-                    { message.content && (
-                        <div>
-                          <Card className="bg-neutral-100 dark:bg-neutral-950 text-sm px-3.5 py-2.5 rounded-2xl">
-                            <Markdown
-                              remarkPlugins={[remarkGfm]}
-                            >{message.content}</Markdown>
-                          </Card>
-                        </div>
-                      )}
+                    {message && (
+                      <div>
+                        <Card className="bg-neutral-100 dark:bg-neutral-950 text-sm px-3.5 py-2.5 rounded-2xl">
+                          {message.parts.map((part, i) => {
+                            if (part.type === "reasoning" && (status === "streaming" || status !== 'ready') && message.id === messages[messages.length - 1]?.id) {
+                              return (
+                                <div key={i} className="text-neutral-500">
+                                  Thinking...
+                                </div>
+                              );
+                            }
+                            if (part.type === "text") {
+                              return (
+                                <Markdown
+                                  key={i}
+                                  remarkPlugins={[remarkGfm]}
+                                >
+                                  {part.text}
+                                </Markdown>
+                              );
+                            }
+
+                            return null;
+                          })}
+                        </Card>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -175,11 +132,11 @@ export const AIChatDrawer = () => {
           <InputGroup>
             <InputGroupTextarea
               maxLength={500}
-              placeholder={isLoading ? "Thinking..." : "Ask me anything..."}
+              placeholder={status === 'streaming' ? "Thinking..." : "Ask me anything..."}
               className="max-h-25 no-scrollbar disabled:opacity-60"
               aria-label="Type your message"
               value={input}
-              disabled={isLoading}
+              disabled={status === 'streaming'}
               onChange={(e) => setInput(e.currentTarget.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -192,11 +149,11 @@ export const AIChatDrawer = () => {
               <InputGroupText>{input.length}/500</InputGroupText>
               <Button
                 onClick={handleSubmit}
-                disabled={isLoading || !input.trim()}
+                disabled={status === 'streaming' || !input.trim()}
                 variant="default"
                 className="ml-auto rounded-lg py-1.5 px-1.5!"
               >
-               {isLoading ? <Loader2 className="animate-spin" /> : <ArrowUp />}
+                {status === 'streaming' ? <Loader2 className="animate-spin" /> : <ArrowUp />}
               </Button>
             </InputGroupAddon>
           </InputGroup>
