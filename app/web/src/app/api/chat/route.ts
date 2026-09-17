@@ -90,7 +90,7 @@ export async function POST(req: Request) {
         const modelMessages = await convertToModelMessages(messages);
 
         const response = await streamText({
-            model: "openai/gpt-5-mini",
+            model: "openai/gpt-5.6-luna",
             system: system,
             messages: modelMessages,
             tools: tools,
@@ -99,6 +99,9 @@ export async function POST(req: Request) {
 
         return response.toUIMessageStreamResponse();
     } catch (error) {
-        console.error("Error in POST /api/chat:", error.message);
+        return Response.json({
+            success: false,
+            message: error instanceof Error ? error.message : "Something went wrong!"
+        });
     }
 }

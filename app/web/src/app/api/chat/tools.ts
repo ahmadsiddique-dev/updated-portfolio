@@ -15,7 +15,6 @@ export const tools = {
             data: z.array(z.string()).nullable()
         }),
         execute: async ({ searchString }) => {
-            console.log("Query Came bro");
             try {
                 const { embedding } = await embed({
                     model: "openai/text-embedding-3-small",
