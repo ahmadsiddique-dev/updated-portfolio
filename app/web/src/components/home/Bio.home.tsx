@@ -15,22 +15,27 @@ const Bio = () => {
               info="A full-stack developer is a versatile software professional proficient in building both the front-end (user interface) and back-end (server-side/database) of applications."
               text="Full-Stack Developer"
             />{" "}
-            and computer science student. Right now living in{" "}
+            and
+            <InforViewer
+              url=""
+              info="A GenAI engineer is a technical professional who builds production-grade software applications powered by generative artificial intelligence models"
+              text="GenAI Engineer"
+            />
+            . Right now living in{" "}
             <InforViewer
               url="https://en.wikipedia.org/wiki/Lahore"
               text="Lahore"
               info="Lahore is the capital and largest city of the Pakistani province of Punjab. It is the second-largest city in Pakistan, after Karachi, and 27th largest in the world, with a population of over 14 million. Lahore is one of Pakistan's major industrial, educational and economic hubs"
             />
-            , Pakistan and I've been serving to the web for the past three years.
+            , Pakistan and I've been serving to the web for the past three years & learned a lot of amazing stuff.
           </p>
           <p>
-            I've been passionate about computers since childhood and wanted to
-            be their friend, so I learned their language. My interest in the web
-            introduced me to <InforViewer
+            I've always been looking for an opportunity to surround myself with like-minded where I can learn, contribute & share my ideas to create some impact.
+            {/* <InforViewer
               info="JavaScript is a programming language and core technology of the Web, alongside HTML and CSS. Created by Brendan Eich in 1995."
               text="JavaScript"
               url="https://en.wikipedia.org/wiki/JavaScript"
-            /> 🖤
+            /> 🖤 */}
           </p>
         </div>
         <Image
@@ -44,18 +49,36 @@ const Bio = () => {
       </div>
       <div>
         <p className="my-7">
-          With the time I've learned many <Link href="/skills" className="underline gap-2 decoration-gray-500 hover:decoration-gray-100 underline-offset-4">
-            amazing things
-          </Link> {" "}
-          and made many <Link href="/project" className="underline gap-2 decoration-gray-500 hover:decoration-gray-100 underline-offset-4">
-            projects
-          </Link>
-          . Which had boost my confidence in Web Development. I also do <InforViewer
+          In the era of AI I still do <InforViewer
             info="Data Structures and Algorithms (DSA) is a fundamental part of Computer Science that teaches you how to think and solve complex problems systematically."
             text="DSA"
             url="https://www.w3schools.com/dsa/"
-          /> on daily basis to improve my problem solving skills.
+          />  & and read a lot of
+          <InforViewer
+          info="Documentation means official papers, records, or written materials that provide proof, evidence, or instructions on how to use a system or object"
+          url="https://en.wikipedia.org/wiki/Documentation"
+          text="documentation"
+          />  to keep my self upto-date and away from 
+          
+          <InforViewer
+          key={'ai slope'}
+          info="AI slop is low-quality, mass-produced content generated with AI, created more for volume and attention than for usefulness, originality, or human value."
+          text="AI Slop"
+          url="https://en.wikipedia.org/wiki/AI_slop"
+          />
+          
+          My curiosity of understanding how things works made me to switch from Windows and Now I'm proud of saying:
+          
 
+        </p>
+        <p className="my-7 text-start font-bold italic">
+          "I use Arch Btw"
+          <InforViewer
+          info=""
+          text=""
+          url=""
+          key={''}
+          />
         </p>
       </div>
     </section>

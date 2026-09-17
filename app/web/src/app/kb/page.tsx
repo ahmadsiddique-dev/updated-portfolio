@@ -23,7 +23,6 @@ const page = async () => {
       <p className="mt-2 text-sm text-muted-foreground">
         Contacts fetched that were created by AI model
       </p>
-      
       <Table>
         <TableHeader>
           <TableRow>

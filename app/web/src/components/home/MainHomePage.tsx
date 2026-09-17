@@ -1,6 +1,4 @@
-import React from "react";
 import Bio from "./Bio.home";
-import Project from "./Project.home";
 import HeatMap from "./HeatMap";
 
 const MainHomePage = () => {
