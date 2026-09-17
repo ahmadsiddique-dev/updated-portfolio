@@ -49,10 +49,10 @@ importers:
     dependencies:
       '@ai-sdk/google':
         specifier: ^3.0.20
-        version: 3.0.91(zod@4.4.3)
+        version: 3.0.91(zod@3.25.76)
       '@ai-sdk/react':
         specifier: ^3.0.286
-        version: 3.0.286(react@19.2.3)(zod@4.4.3)
+        version: 3.0.286(react@19.2.3)(zod@3.25.76)
       '@langchain/textsplitters':
         specifier: ^1.0.1
         version: 1.0.1(@langchain/core@1.2.10(@opentelemetry/api@1.9.1)(ws@8.21.3))
@@ -91,7 +91,7 @@ importers:
         version: 2.0.1(next@16.1.6(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
       ai:
         specifier: ^6.0.69
-        version: 6.0.223(zod@4.4.3)
+        version: 6.0.223(zod@3.25.76)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -150,8 +150,8 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       zod:
-        specifier: ^4.3.6
-        version: 4.4.3
+        specifier: ^3.25.76
+        version: 3.25.76
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4
@@ -8184,8 +8184,8 @@ packages:
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
 
-  zod@4.4.3:
-    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
   zod@4.6.5:
     resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
@@ -8215,40 +8215,40 @@ snapshots:
 
   '@acemir/cssom@0.9.31': {}
 
-  '@ai-sdk/gateway@3.0.147(zod@4.4.3)':
+  '@ai-sdk/gateway@3.0.147(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 3.0.14
-      '@ai-sdk/provider-utils': 4.0.38(zod@4.4.3)
+      '@ai-sdk/provider-utils': 4.0.38(zod@3.25.76)
       '@vercel/oidc': 3.2.0
-      zod: 4.4.3
+      zod: 3.25.76
 
-  '@ai-sdk/gateway@3.0.194(zod@4.4.3)':
+  '@ai-sdk/gateway@3.0.194(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 3.0.16
-      '@ai-sdk/provider-utils': 4.0.51(zod@4.4.3)
+      '@ai-sdk/provider-utils': 4.0.51(zod@3.25.76)
       '@vercel/oidc': 3.2.0
-      zod: 4.4.3
+      zod: 3.25.76
 
-  '@ai-sdk/google@3.0.91(zod@4.4.3)':
+  '@ai-sdk/google@3.0.91(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 3.0.14
-      '@ai-sdk/provider-utils': 4.0.38(zod@4.4.3)
-      zod: 4.4.3
+      '@ai-sdk/provider-utils': 4.0.38(zod@3.25.76)
+      zod: 3.25.76
 
-  '@ai-sdk/provider-utils@4.0.38(zod@4.4.3)':
+  '@ai-sdk/provider-utils@4.0.38(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 3.0.14
       '@standard-schema/spec': 1.1.0
       eventsource-parser: 3.1.0
-      zod: 4.4.3
+      zod: 3.25.76
 
-  '@ai-sdk/provider-utils@4.0.51(zod@4.4.3)':
+  '@ai-sdk/provider-utils@4.0.51(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 3.0.16
       '@standard-schema/spec': 1.1.0
       eventsource-parser: 3.1.0
       undici: 6.28.1
-      zod: 4.4.3
+      zod: 3.25.76
 
   '@ai-sdk/provider@3.0.14':
     dependencies:
@@ -8258,10 +8258,10 @@ snapshots:
     dependencies:
       json-schema: 0.4.0
 
-  '@ai-sdk/react@3.0.286(react@19.2.3)(zod@4.4.3)':
+  '@ai-sdk/react@3.0.286(react@19.2.3)(zod@3.25.76)':
     dependencies:
-      '@ai-sdk/provider-utils': 4.0.51(zod@4.4.3)
-      ai: 6.0.283(zod@4.4.3)
+      '@ai-sdk/provider-utils': 4.0.51(zod@3.25.76)
+      ai: 6.0.283(zod@3.25.76)
       react: 19.2.3
       swr: 2.5.1(react@19.2.3)
       throttleit: 2.1.0
@@ -11896,7 +11896,7 @@ snapshots:
       react: 19.2.7
       semver: 7.8.5
       vite: 8.3.0(@types/node@20.19.43)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)
-      zod: 4.4.3
+      zod: 4.6.5
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/plugin-transform-runtime'
@@ -11944,7 +11944,7 @@ snapshots:
       react: 19.2.7
       semver: 7.8.5
       vite: 8.3.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)
-      zod: 4.4.3
+      zod: 4.6.5
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/plugin-transform-runtime'
@@ -12099,7 +12099,7 @@ snapshots:
       tsx: 4.23.1
       vite: 8.1.2(@types/node@20.19.43)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)
       vite-node: 6.0.0(@types/node@20.19.43)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)
-      zod: 4.4.3
+      zod: 4.6.5
     transitivePeerDependencies:
       - '@noble/hashes'
       - '@types/node'
@@ -12135,7 +12135,7 @@ snapshots:
       tsx: 4.23.1
       vite: 8.1.2(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)
       vite-node: 6.0.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)
-      zod: 4.4.3
+      zod: 4.6.5
     transitivePeerDependencies:
       - '@noble/hashes'
       - '@types/node'
@@ -13400,7 +13400,7 @@ snapshots:
       rxjs: 7.8.2
       verkit: 0.4.0
       xstate: 5.32.3
-      zod: 4.4.3
+      zod: 4.6.5
     transitivePeerDependencies:
       - react
       - vitest
@@ -13416,7 +13416,7 @@ snapshots:
       rxjs: 7.8.2
       verkit: 0.4.0
       xstate: 5.32.3
-      zod: 4.4.3
+      zod: 4.6.5
     transitivePeerDependencies:
       - react
       - vitest
@@ -13432,7 +13432,7 @@ snapshots:
       rxjs: 7.8.2
       verkit: 0.4.0
       xstate: 5.33.0
-      zod: 4.4.3
+      zod: 4.6.5
     transitivePeerDependencies:
       - react
       - vitest
@@ -13448,7 +13448,7 @@ snapshots:
       rxjs: 7.8.2
       verkit: 0.4.0
       xstate: 5.33.0
-      zod: 4.4.3
+      zod: 4.6.5
     transitivePeerDependencies:
       - react
       - vitest
@@ -14048,21 +14048,21 @@ snapshots:
 
   agent-base@7.1.4: {}
 
-  ai@6.0.223(zod@4.4.3):
+  ai@6.0.223(zod@3.25.76):
     dependencies:
-      '@ai-sdk/gateway': 3.0.147(zod@4.4.3)
+      '@ai-sdk/gateway': 3.0.147(zod@3.25.76)
       '@ai-sdk/provider': 3.0.14
-      '@ai-sdk/provider-utils': 4.0.38(zod@4.4.3)
+      '@ai-sdk/provider-utils': 4.0.38(zod@3.25.76)
       '@opentelemetry/api': 1.9.1
-      zod: 4.4.3
+      zod: 3.25.76
 
-  ai@6.0.283(zod@4.4.3):
+  ai@6.0.283(zod@3.25.76):
     dependencies:
-      '@ai-sdk/gateway': 3.0.194(zod@4.4.3)
+      '@ai-sdk/gateway': 3.0.194(zod@3.25.76)
       '@ai-sdk/provider': 3.0.16
-      '@ai-sdk/provider-utils': 4.0.51(zod@4.4.3)
+      '@ai-sdk/provider-utils': 4.0.51(zod@3.25.76)
       '@opentelemetry/api': 1.9.1
-      zod: 4.4.3
+      zod: 3.25.76
 
   ajv@6.15.0:
     dependencies:
@@ -14981,8 +14981,8 @@ snapshots:
       '@babel/parser': 7.29.7
       eslint: 9.39.4(jiti@2.7.0)(supports-color@8.1.1)
       hermes-parser: 0.25.1
-      zod: 4.4.3
-      zod-validation-error: 4.0.2(zod@4.4.3)
+      zod: 4.6.5
+      zod-validation-error: 4.0.2(zod@4.6.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -19051,11 +19051,11 @@ snapshots:
 
   yoctocolors@2.1.2: {}
 
-  zod-validation-error@4.0.2(zod@4.4.3):
+  zod-validation-error@4.0.2(zod@4.6.5):
     dependencies:
-      zod: 4.4.3
+      zod: 4.6.5
 
-  zod@4.4.3: {}
+  zod@3.25.76: {}
 
   zod@4.6.5: {}
 

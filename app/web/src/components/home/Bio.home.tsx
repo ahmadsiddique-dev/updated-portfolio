@@ -22,15 +22,15 @@ const Bio = () => {
               text="GenAI Engineer"
             />
             . Right now living in{" "}
-            <InforViewer
+            {/* <InforViewer
               url="https://en.wikipedia.org/wiki/Lahore"
               text="Lahore"
               info="Lahore is the capital and largest city of the Pakistani province of Punjab. It is the second-largest city in Pakistan, after Karachi, and 27th largest in the world, with a population of over 14 million. Lahore is one of Pakistan's major industrial, educational and economic hubs"
-            />
+            /> */} Multan
             , Pakistan and I've been serving to the web for the past three years & learned a lot of amazing stuff.
           </p>
           <p>
-            I've always been looking for an opportunity to surround myself with like-minded where I can learn, contribute & share my ideas to create some impact.
+            I've always been seeking for an opportunity to surround myself with like-minded where I can learn, contribute & share my ideas to create some impact.
             {/* <InforViewer
               info="JavaScript is a programming language and core technology of the Web, alongside HTML and CSS. Created by Brendan Eich in 1995."
               text="JavaScript"
