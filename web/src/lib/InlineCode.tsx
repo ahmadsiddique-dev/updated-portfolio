@@ -34,7 +34,7 @@ export function InlineCode({ children }: InlineCodeProps) {
       {copied ? (
         <Check className="h-3 w-3 text-green-400" />
       ) : (
-        <Copy className="h-3 hover:text-white w-3 text-zinc-500" />
+        <Copy className="h-3 hover:text-white w-3 text-zinc-400" />
       )}
     </button>
   );
