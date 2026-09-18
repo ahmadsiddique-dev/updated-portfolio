@@ -3,6 +3,7 @@ import Image from "next/image";
 import imageUrlBuilder from "@sanity/image-url";
 import { InlineCode } from "@/lib/InlineCode";
 import { client } from "@/sanity/client";
+import CodeBlock from "@/components/elements/CodeBlock";
 
 const builder = imageUrlBuilder(client);
 
@@ -90,7 +91,7 @@ export const portableTextComponents: PortableTextComponents = {
         {children}
       </a>
     ),
-    code: ({ children }) => <InlineCode children={children} />,
+    code: ({ children }) => <InlineCode>{children}</InlineCode>,
   },
 
   types: {
@@ -109,5 +110,12 @@ export const portableTextComponents: PortableTextComponents = {
         />
       );
     },
+    code: ({ value }) => (
+    <CodeBlock
+      children={value.code}
+      lang={value.language}
+      fileName={value.filename}
+    />
+  ),
   },
 };

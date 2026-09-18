@@ -27,7 +27,7 @@ export function InlineCode({ children }: InlineCodeProps) {
       type="button"
       onClick={handleCopy}
       title={copied ? "Copied!" : "Copy code"}
-      className="flex hover:select-text selection:text-red-700 items-center hover:cursor-pointer w-full min-h-17 rounded-md bg-black font-mono justify-between px-5 text-zinc-200 transition-color"
+      className="flex hover:select-text items-center hover:cursor-pointer w-full min-h-17 rounded-md bg-black font-mono justify-between px-5 text-zinc-200 transition-color"
     >
       <code>{children}</code>
 
