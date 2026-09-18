@@ -5,13 +5,13 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-const InforViewer = ({ text, info, url }: { text: string; info: string; url: string }) => {
+const InforViewer = ({ text, info, url, className }: { text: string; info: string; url: string; className?: string }) => {
   return (
     <HoverCard openDelay={10} closeDelay={100}>
       <HoverCardTrigger asChild>
         <Button
           variant={"link"}
-          className="underline-stuff"
+          className={`underline-stuff ${className}`}
         >
           {text}
         </Button>
