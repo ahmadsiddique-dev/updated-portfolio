@@ -62,28 +62,48 @@ export const ProjectType = defineType({
             },
         }),
         defineField({
-            name: 'detail',
-            title: 'Detail',
-            type: 'array',
-            of: [
-                {
-                    type: 'block',
-                },
-                {
-                    type: 'image',
-                    options: {
-                        hotspot: true,
-                    },
-                    fields: [
-                        {
-                            name: 'alt',
-                            title: 'Alternative text',
-                            type: 'string',
-                        },
-                    ],
-                },
+      name: 'detail',
+      title: 'Detail',
+      type: 'array',
+      of: [
+        {
+          type: 'block',
+        },
+        {
+          type: "code",
+          options: {
+            language: 'typescript',
+            languageAlternatives: [
+              { title: 'Javascript', value: 'javascript' },
+              { title: "TypeScript", value: "typescript" },
+              { title: "Python", value: "python"},
+              { title: "SQL", value: "sql" },
+              { title: 'HTML', value: 'html' },
+              { title: 'CSS', value: 'css' },
+              { title: "TSX", value: "tsx" },
+              { title: "JSX", value: "jsx" },
+              { title: "JSON", value: "json" },
+              { title: "Bash", value: "bash" },
             ],
-        }),
+            withFilename: true,
+            disableFullscreen: false,
+          },
+        },
+        {
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alternative text',
+              type: 'string',
+            },
+          ],
+        },
+      ],
+    }),
         defineField({
             name: 'show',
             type: 'boolean',

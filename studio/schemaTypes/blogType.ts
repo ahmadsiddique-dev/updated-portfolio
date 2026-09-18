@@ -82,6 +82,7 @@ export const BlogType = defineType({
             languageAlternatives: [
               { title: 'Javascript', value: 'javascript' },
               { title: "TypeScript", value: "typescript" },
+              { title: "Python", value: "python"},
               { title: "SQL", value: "sql" },
               { title: 'HTML', value: 'html' },
               { title: 'CSS', value: 'css' },
