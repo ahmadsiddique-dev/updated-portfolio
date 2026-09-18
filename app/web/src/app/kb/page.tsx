@@ -62,7 +62,7 @@ const page = async () => {
                       </Tooltip>
                     </TooltipProvider>
                   </TableCell>
-                </TableRow>
+                </TableRow> 
               ))
             )}
           </TableBody>
