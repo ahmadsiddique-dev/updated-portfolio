@@ -51,7 +51,7 @@ export default async function BlogPage() {
         {blogs.map((blog) => (
           <Link key={blog._id} href={blog.slug ? `/blog/${blog.slug.current}` : "/not-found"}>
             <Card className="flex flex-col sm:flex-row w-full sm:max-w-3xl p-4 gap-5 bg-transparent border-zinc-200 max-w-107.5 mx-auto dark:border-zinc-800 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors">
-              <div className="relative w-full sm:w-65 h-45 shrink-0 border border-zinc-200 dark:border-zinc-800 rounded-lg flex items-center justify-center bg-zinc-50 dark:bg-[#0a0a0a] overflow-hidden">
+              <div className="relative w-full sm:w-65 h-60 sm:h-45 shrink-0 border border-zinc-200 dark:border-zinc-800 rounded-lg flex items-center justify-center bg-zinc-50 dark:bg-[#0a0a0a] overflow-hidden">
                 {blog.image && (
                   <Image
                     src={blog.image}

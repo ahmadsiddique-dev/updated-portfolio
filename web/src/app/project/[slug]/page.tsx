@@ -1,12 +1,23 @@
 import React from 'react'
 import { getProject } from './_lib/get-project'
+import { getProjects } from '../_lib/get-projects'
 import { portableTextComponents } from '@/lib/portabletext';
 import Image from 'next/image';
 import { PortableText } from '@portabletext/react';
+import { PrevNextNav, getPrevNextItems } from '@/components/elements/PrevNextNav';
 
 const page = async ({ params }: { params: { slug: string } }) => {
     const { slug } = await params;
-    const project = await getProject(slug);
+    const [project, allProjects] = await Promise.all([
+      getProject(slug),
+      getProjects()
+    ]);
+
+    if (!project || !project[0]) {
+      return <h1 className="tracking-tight leading-relaxed shadow-lg text-center text-2xl font-bold">Project not found</h1>
+    }
+
+    const { prev, next } = getPrevNextItems(allProjects, slug);
 
     return (
         <div>
@@ -27,6 +38,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
                     value={project[0].detail}
                     components={portableTextComponents}
                 />
+                <PrevNextNav prev={prev} next={next} basePath="/project" label="Project" />
             </div>
         </div>
     )
