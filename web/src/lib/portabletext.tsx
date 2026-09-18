@@ -1,7 +1,7 @@
 import { PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 import imageUrlBuilder from "@sanity/image-url";
+import { InlineCode } from "@/lib/InlineCode";
 import { client } from "@/sanity/client";
 
 const builder = imageUrlBuilder(client);
@@ -90,12 +90,7 @@ export const portableTextComponents: PortableTextComponents = {
         {children}
       </a>
     ),
-
-    code: ({ children }) => (
-      <Badge className="rounded-md px-2 py-0.5 text-sm">
-        {children}
-      </Badge>
-    ),
+    code: ({ children }) => <InlineCode children={children} />,
   },
 
   types: {

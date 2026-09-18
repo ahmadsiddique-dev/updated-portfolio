@@ -426,20 +426,23 @@ export type GetProjectQueryResult = Array<{
 
 // Source: ../web/src/sanity/lib/queries.ts
 // Variable: getSkillsQuery
-// Query: *[_type == "skill" && tag == $skillTag] {  name,  "image": image.asset->url}
+// Query: *[_type == "skill"] {  name,  "image": image.asset->url}
 export type GetSkillsQueryResult = Array<{
   name: string | null;
   image: string | null;
 }>;
 
 // Query TypeMap
-import "@sanity/client";
-declare module "@sanity/client" {
+declare global {
   interface SanityQueries {
     '\n  *[_type == "blog"] {\n    _id,\n    title,\n    slug,\n    time,\n    createdAt,\n    description,\n    "image": image.asset->url\n  }\n': GetBlogsQueryResult;
     '\n  *[show == true && slug.current == $slug]{\n  _id,\n  title,\n  "image": image.asset->url,\n  time,\n  description,\n  detail,\n  createdAt,\n }\n': GetBlogQueryResult;
     "\n  *[_type == 'project' && show == true] {\n  _id,\n  createdAt,\n  description,\n  \"slug\": slug.current,\n  title\n}\n": GetProjectsQueryResult;
     '\n  *[_type == \'project\' && show == true && slug.current == $slug] {\n  _id,\n  createdAt,\n  description,\n  "image": image.asset->url,\n  "slug": slug.current,\n  title,\n  detail\n}\n': GetProjectQueryResult;
-    '\n  *[_type == "skill" && tag == $skillTag] {\n  name,\n  "image": image.asset->url\n}\n': GetSkillsQueryResult;
+    '\n  *[_type == "skill"] {\n  name,\n  "image": image.asset->url\n}\n': GetSkillsQueryResult;
   }
+}
+// Lets @sanity/client releases that predate the global registry read it too
+declare module "@sanity/client" {
+  interface SanityQueries extends globalThis.SanityQueries {}
 }

@@ -1,4 +1,4 @@
-import {defineType, defineField} from 'sanity'
+import { defineType, defineField } from 'sanity'
 
 export const BlogType = defineType({
   name: 'blog',
@@ -74,6 +74,25 @@ export const BlogType = defineType({
       of: [
         {
           type: 'block',
+        },
+        {
+          type: "code",
+          options: {
+            language: 'typescript',
+            languageAlternatives: [
+              { title: 'Javascript', value: 'javascript' },
+              { title: "TypeScript", value: "typescript" },
+              { title: "SQL", value: "sql" },
+              { title: 'HTML', value: 'html' },
+              { title: 'CSS', value: 'css' },
+              { title: "TSX", value: "tsx" },
+              { title: "JSX", value: "jsx" },
+              { title: "JSON", value: "json" },
+              { title: "Bash", value: "bash" },
+            ],
+            withFilename: true,
+            disableFullscreen: false,
+          },
         },
         {
           type: 'image',
